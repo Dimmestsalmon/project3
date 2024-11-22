@@ -7,11 +7,10 @@ exports.up = function(knex) {
         table.increments('id').primary();
         table.string('name');
         table.string('location');
-        table.string('password');
         table.date('date');
         table.time('time');
     });
-  
+
 };
 
 /**
