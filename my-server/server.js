@@ -22,4 +22,16 @@ server.post('/users', (req, res) => {
     .catch(err => res.status(400).send('Error creating user'))
 })
 
+server.delete('/users', (req, res) => {
+    knex('users').where('name', req.body.name).del()
+    .then(data => res.status(200).json(data))
+    .catch(err => res.status(400).send('Error deleting user'))
+})
+
+server.patch('/users', (req, res) => {
+    knex('users').where('name', req.body.name).update(req.body)
+    .then(data => res.status(200).json(data))
+    .catch(err => res.status(400).send('Error deleting user'))
+})
+
 server.listen(port, () => console.log(`Example app listening at http://localhost:${port}`))
