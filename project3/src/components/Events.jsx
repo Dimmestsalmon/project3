@@ -23,85 +23,67 @@ const Events = () => {
       .catch((err) => setError(err.message));
   }, []);
 
-  // for input changes
+  // Handle form input changes
   const handleInputChange = (event) => {
     const { name, value } = event.target;
-    setNewEvent((prevEvents) => ({
-      ...prevEvents,
+    setNewEvent((prevEvent) => ({
+      ...prevEvent,
       [name]: value,
     }));
   };
 
+  // Add a new event
+  const addEvent = () => {
+    const { name, location, date, time } = newEvent;
+    if (!name || !location || !date || !time) {
+      alert('All fields are required');
+      return;
+    }
 
-  // // add new events
-  // const addEvent = () => {
-  //   const { name, location, date, time } = newEvent;
-  //   if (!name || !location || !data || !time) {
-  //     alert("All fields must be populated")
-  //   return;
-  //   }
+    fetch('http://localhost:8080/events', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(newEvent),
+    })
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error('Failed to add event');
+        }
+        return res.json();
+      })
+      .then((addedEvent) => {
+        setEvents((prevEvents) => [...prevEvents, addedEvent]);
+        setNewEvent({ name: '', location: '', date: '', time: '' });
+      })
+      .catch((err) => setError(err.message));
+  };
 
-
-  //   fetch('http://localhost:8080/events', {
-  //     method: "POST",
-  //     headers:{
-  //       "Content-Type":"application/json"
-  //     },
-  //     body: JSON.stringify({name:newEvent})
-  //   })
-  //   .then((res) => {
-  //     if(!res.ok) {
-  //       throw new Error("Failed to add event.")
-  //     }
-  //     return res.json();
-  //   })
-  //   .then((addedEvent) => {
-  //     setEvents((prevEvents) => [...prevEvents, addedEvent]);
-  //     setNewEvent({
-  //       name: '',
-  //       location: '',
-  //       date: '',
-  //       time:''
-  //     })
-  //     .catch((err) => setError(err.message));
-  //   }
-  //   if (error){
-  //     return <p>Error:{error}</p>
-  //   }
-
-
-
-
-
-  if(events){
-    return (
-      <>
-      <h1>New Event</h1>
-
-      </>
-    )
+  if (error) {
+    return <p>Error: {error}</p>;
   }
 
+  return (
+    <div>
+      <h1>Events</h1>
+      <h2>New Events</h2>
+      <button onClick={addEvent}>Add Event</button>
+
+      <h2>List of Events</h2>
+      {events.length > 0 ? (
+        events.map((event) =>(
+          <p key={event.id}>
+            <strong>{event.name}</strong> at {event.location} on {event.date} at {event.time}
+          </p>
+        ))
+      ) : (
+        <p>No events found</p>
+      )}
+    </div>
+  );
+};
 
 
-//   useEffect(()=>{
-//       fetch('http://localhost:8080/users')
-//       .then(res => res.json())
-//       .then (data => setUsers(data))
-//   }, [])
-//   if(users){
-//   return (
-//     <>
-//     <h1>List of Users</h1>
-//     <input type = 'text' placeholder = 'Name here' onChange = {inputUser}/>
-//     <button onClick={() => addUser(newUser)}>Add User</button>
-//     {users.map((user, index) => {
-//       return (
-//       <p key = {index}>{user.name}</p>
-//       )
-//     })}
-//     </>
-//   )
-// }
-// }
-export default Events
+
+export default Events;
