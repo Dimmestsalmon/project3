@@ -87,6 +87,21 @@ server.put('/events/:id', async (req, res) => {
 })
 
 
+//DELETE: remove an event
+server.delete('/events/:id', async (req, res) => {
+  const {id} = req.params;
+  try {
+    const deletedCount = await knex('events').where({id}).del()
+
+  if (!deletedCount) {
+    return res.status(404).json({ error: 'Event does not exist.'})
+  }
+  res.status(204).send();
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Failed to delete event.' });
+  }
+})
 
 
 // Start the server
