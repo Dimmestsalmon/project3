@@ -20,6 +20,23 @@ server.get('/events', async (req, res) => {
   }
 });
 
+// GET: Event by id
+server.get('/events/:id', async (req, res) => {
+  const { id } =req.params;
+
+  try {
+    const event = await knex('events').where({ id }).first();
+    if (!event) {
+      return res.status(404).json({ error: 'Event nnot found.'});
+    }
+    res.json(event);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Failed to fetch event.'})
+  }
+});
+
+
 // POST: Add a new event
 server.post('/events', async (req, res) => {
   const { name, location, date, time } = req.body;
