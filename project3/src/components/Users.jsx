@@ -8,12 +8,18 @@ const Users = () => {
       .then(res => res.json())
       .then (data => setUsers(data))
   }, [])
+  if(users){
   return (
     <>
     <h1>List of Users</h1>
-    <p>{users.name}</p>
+    {users.map((user, index) => {
+      return (
+      <p key = {index}>{user.name}</p>
+      )
+    })}
     </>
   )
+}
 }
 
 export default Users
