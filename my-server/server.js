@@ -10,7 +10,7 @@ server.use(express.json());
 server.get('/', (req, res) => res.send('Sasquatch is Real!'));
 
 // GET: Fetch all events
-server.get('/add-test-event', async (req, res) => {
+server.get('/events', async (req, res) => {
   try {
     const events = await knex('events').select('*');
     res.json(events);
@@ -21,7 +21,7 @@ server.get('/add-test-event', async (req, res) => {
 });
 
 // POST: Add a new event
-server.post('/add-test-event', async (req, res) => {
+server.post('/events', async (req, res) => {
   const { name, location, date, time } = req.body;
 
 
@@ -33,7 +33,7 @@ server.post('/add-test-event', async (req, res) => {
     const [newEvent] = await knex('events')
       .insert({ name, location, date, time })
       .returning('*');
-    res.status(201).json(newEvent); 
+    res.status(201).json(newEvent);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Failed to add event.' });
