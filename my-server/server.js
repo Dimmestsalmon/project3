@@ -6,8 +6,8 @@ const knex = require('knex')(require('./knexfile.js')['development'])
 
 
 server.get('/', (req, res) => res.send('Sasquatch is Real!'))
-server.get('/events', (req, res) => {
-    knex.select('*').from('events')
+server.get('/users', (req, res) => {
+    knex.select('*').from('users')
     .then(data => res.status(200).json(data))
     .catch(err => res.status(400).send('Error fetching events'))
 })
