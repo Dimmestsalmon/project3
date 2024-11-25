@@ -27,7 +27,7 @@ server.get('/events/:id', async (req, res) => {
   try {
     const event = await knex('events').where({ id }).first();
     if (!event) {
-      return res.status(404).json({ error: 'Event nnot found.'});
+      return res.status(404).json({ error: 'Event not found.'});
     }
     res.json(event);
   } catch (error) {
@@ -56,6 +56,38 @@ server.post('/events', async (req, res) => {
     res.status(500).json({ error: 'Failed to add event.' });
   }
 });
+
+//PUT: update an event
+server.put('/events/:id', async (req, res) => {
+  const {id} = req.params;
+  const { name, location, date, time } = req.body;
+
+  if(!name || !location || !date || !time) {
+     return res.status(400).json({ error: 'All fields are required.' });
+  }
+
+  try{
+    const updatedCount = await knex('events').where({id}).update({
+      name,
+      location,
+      date,
+      time
+    });
+
+  if (!updatedCount) {
+    return res.status(404).json({ error: 'Event does not exist.'})
+  }
+
+  const updatedEvent = await knex('events').where({id}).first();
+  res.json(updatedEvent);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Failed to update event.' });
+  }
+})
+
+
+
 
 // Start the server
 server.listen(port, () => console.log(`Server listening at http://localhost:${port}`));
