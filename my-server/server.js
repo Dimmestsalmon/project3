@@ -20,24 +20,23 @@ server.get('/add-test-event', async (req, res) => {
   }
 });
 
-// POST: Add a test event
+// POST: Add a new event
 server.post('/add-test-event', async (req, res) => {
-  try {
-    // Insert a new event into the database
-    const [newEvent] = await knex('events')
-      .insert({
-        name: 'Taylor Swift',
-        location: 'Orpheum',
-        date: '2025-03-14',
-        time: '18:00',
-      })
-      .returning('*'); // Returns the inserted row
+  const { name, location, date, time } = req.body;
 
-    // Send success response
-    res.status(201).json(newEvent);
+
+  if (!name || !location || !date || !time) {
+    return res.status(400).json({ error: 'All fields are required.' });
+  }
+
+  try {
+    const [newEvent] = await knex('events')
+      .insert({ name, location, date, time })
+      .returning('*');
+    res.status(201).json(newEvent); 
   } catch (error) {
     console.error(error);
-    res.status(500).send('Error adding event');
+    res.status(500).json({ error: 'Failed to add event.' });
   }
 });
 
