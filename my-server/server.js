@@ -3,7 +3,10 @@ const express = require('express');
 const server = express();
 const port = 8080;
 const knex = require('knex')(require('./knexfile.js')['development'])
-
+const cors = require('cors');
+app.use(cors({
+    origin: 'http://localhost:8080'
+}));
 
 server.get('/', (req, res) => res.send('Sasquatch is Real!'))
 server.get('/users', (req, res) => {
