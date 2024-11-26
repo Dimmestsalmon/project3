@@ -6,6 +6,7 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
 import Queue from './components/Queue';
+import Users from './components/Users';
 
 function App() {
 
@@ -14,6 +15,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/queue" element={<Queue />} />
+        <Route path="/users" element={<Users />} />
       </Routes>
     </Router>
   )
