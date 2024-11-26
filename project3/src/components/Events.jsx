@@ -167,7 +167,7 @@ const Events = () => {
             <div key={event.id}>
               <p>
                 <strong>{event.name}</strong> at {event.location} on {date} at{" "}
-                {time}
+                {time} PST
               </p>
               <p>
                 <Link to={`/events/${event.id}`}>View Event Details</Link>

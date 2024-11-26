@@ -21,6 +21,29 @@ const EventsDetails = () => {
       fetchEvent();
     }, [id, navigate]);
 
+    const formatDateTime = (isoString, timeString) => {
+      if (!isoString || !timeString) {
+        return { date: "Unknown Date", time: "Unknown Time" };
+      }
+
+      const date = new Date(isoString).toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      });
+
+      const time = new Date(`1970-01-01T${timeString}`).toLocaleTimeString(
+        "en-US",
+        {
+          hour: "2-digit",
+          minute: "2-digit",
+          hour12: true,
+        }
+      );
+
+      return { date, time };
+    };
+
     if (loading) {
       return <p>Loading...</p>;
     }
@@ -34,14 +57,23 @@ const EventsDetails = () => {
       );
     }
 
+    const { date, time } = formatDateTime(event.date, event.time);
+
     return (
-      <div>
+      <div className ="event-details">
         <h1>{event.name}</h1>
-        <p>{event.location}, {event.date}, {event.time}</p>
+        <p>
+          <strong>Location:</strong> {event.location}
+        </p>
+        <p>
+          <strong>Date:</strong> {date}
+        </p>
+        <p>
+          <strong>Time:</strong> {time} PST
+        </p>
         <button onClick={() => navigate("/events")}>Back to Events</button>
       </div>
-    )
+    );
+  };
 
-}
-
-export default EventsDetails;
+  export default EventsDetails;

@@ -53,8 +53,9 @@ const Users = () => {
 
   if (users) {
     return (
-      <>
+      <div className ="users-container">
         <h1 className="users-header">List of Users</h1>
+        <p>
         <input
           type="text"
           placeholder="Name here"
@@ -62,15 +63,16 @@ const Users = () => {
           onChange={inputUser}
         />
         <button onClick={() => addUser(newUser)}>Add User</button>
+        </p>
         {users.map((user) => (
           <div key={user.id}>
-            <p>{user.name}</p>
-            <button onClick={() => setUserToBeDeleted(user.name)}>x</button>
+            <p>{user.name} <button class="btn btn-delete" onClick={() => setUserToBeDeleted(user.name)}>Delete</button></p>
+
           </div>
         ))}
         <hr />
         <Link to="/events">Go to Events</Link>
-      </>
+      </div>
     );
   }
 };

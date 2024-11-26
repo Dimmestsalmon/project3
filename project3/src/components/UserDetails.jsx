@@ -27,7 +27,7 @@ const UserDetails = () => {
   }
 
   return (
-    <div>
+    <div className ="user-details">
       <h1>{user.name}</h1>
       <p>
         <strong>User ID:</strong> {user.id}
