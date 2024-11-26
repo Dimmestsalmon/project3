@@ -7,7 +7,7 @@ const cors = require('cors');
 server.use(express.json())
 server.use(
   cors({
-    origin: ['http://localhost:5173', 'http://127.0.0.1:5173'], 
+    origin: ['http://localhost:5173', 'http://127.0.0.1:5173'],
   })
 );
 
@@ -112,7 +112,7 @@ server.delete('/events/:id', async (req, res) => {
 })
 
 
-}));
+
 
 server.get('/users', (req, res) => {
     knex.select('*').from('users')
@@ -158,12 +158,37 @@ server.delete('/queue', (req, res) => {
   .join('users', 'users.id', 'queue.user_id')
   .join('events', 'events.id', 'queue.event_id')
   .select('queue.id', 'users.name AS user_name', 'events.name AS events_name' )
-  .where('users.name', req.body.user_name)
+  .where('users.name', req.body.name)
   .del()
     .then(data => res.status(200).json(data))
-    .catch(err => res.status(400).send('Error fetching events'))
+    .catch(err => console.log(req.body))
 })
 
+server.post('/queue', async (req, res) => {
+    try {
+    const { user_name, event_name } = req.body;
+
+      // Fetch user_id and event_id based on names
+      const user = await knex('users').select('id').where('name', user_name).first();
+      const event = await knex('events').select('id').where('name', event_name).first();
+
+      if (!user || !event) {
+        return res.status(404).json({ error: 'User or Event not found' });
+      }
+
+      // Insert into queue table
+      await knex('queue').insert({
+        user_id: user.id,
+        event_id: event.id,
+      });
+
+      res.status(201).json({ message: 'User added to queue successfully' });
+    } catch (err) {
+      res.status(400).json({ error: 'Error creating queue entry', details: err.message });
+    }
+  });
+// INSERT INTO queue (user_id, event_id)
+// VALUES ((SELECT id FROM users WHERE name = 'Nephi'), (SELECT id FROM events WHERE name = 'Some Event'));
 server.delete('/users', (req, res) => {
     knex('users').where('name', req.body.name).del()
     .then(data => res.status(200).json(data))

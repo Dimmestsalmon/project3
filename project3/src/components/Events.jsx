@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 
 const Events = () => {
+  const [eventName, setEventName] = useState()
+  const [newQueue, setnewQueue] = useState()
   const [events, setEvents] = useState([]); // State for events list
   const [newEvent, setNewEvent] = useState({
     name: "",
@@ -9,6 +11,24 @@ const Events = () => {
     time: "",
   }); // State for new event input
   const [error, setError] = useState(null); // State for error handling
+
+  //set user to add to  quewue
+  const inputEvent = (event) => {
+    setnewQueue(event.target.value)
+    setEventName(event.target.className)
+  }
+
+  //add event and user to queue
+  const addToQueue = (newQueue, eventName) =>{
+
+    fetch('http://localhost:8080/queue', {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ user_name: newQueue,  event_name: eventName})
+    })
+}
 
   // Fetch events from the server
   useEffect(() => {
@@ -151,6 +171,8 @@ const Events = () => {
                 <strong>{event.name}</strong> at {event.location} on {date} at{" "}
                 {time}
               </p>
+              <input className = {event.name} type = 'text' placeholder = 'Name here' onChange = {inputEvent}/>
+              <button onClick={() => addToQueue(newQueue, eventName)}>Add User</button>
               <button onClick={() => deleteEvent(event.id)}>Delete</button>
             </div>
           );
