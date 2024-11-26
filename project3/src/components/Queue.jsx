@@ -23,7 +23,7 @@ const Queue = () => {
     fetch("http://localhost:8080/queue")
       .then((res) => res.json())
       .then((data) => setQueue(data));
-  }, []);
+  }, [userToBeDeleted]);
 
   if (queue.length > 0) {
     return (

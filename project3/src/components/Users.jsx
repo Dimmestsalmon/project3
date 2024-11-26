@@ -49,7 +49,7 @@ const Users = () => {
     fetch("http://localhost:8080/users")
       .then((res) => res.json())
       .then((data) => setUsers(data));
-  }, []);
+  }, [users]);
 
   if (users) {
     return (
