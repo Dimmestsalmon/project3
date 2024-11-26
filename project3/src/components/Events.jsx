@@ -33,14 +33,12 @@ const Events = () => {
   };
 
   const formatDateTime = (isoString, timeString) => {
-
     const date = new Date(isoString).toLocaleDateString("en-US", {
       year: "numeric",
       month: "long",
       day: "numeric",
     });
 
-    
     const time = new Date(`1970-01-01T${timeString}`).toLocaleTimeString(
       "en-US",
       {
@@ -77,6 +75,22 @@ const Events = () => {
       .then((addedEvent) => {
         setEvents((prevEvents) => [...prevEvents, addedEvent]); // Add the new event to the list
         setNewEvent({ name: "", location: "", date: "", time: "" }); // Reset the input form
+      })
+      .catch((err) => setError(err.message));
+  };
+
+  // Delete an event
+  const deleteEvent = (id) => {
+    fetch(`http://localhost:8080/events/${id}`, {
+      method: "DELETE",
+    })
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error("Failed to delete event");
+        }
+        setEvents((prevEvents) =>
+          prevEvents.filter((event) => event.id !== id)
+        ); // Remove the event from the list
       })
       .catch((err) => setError(err.message));
   };
@@ -132,10 +146,13 @@ const Events = () => {
         events.map((event) => {
           const { date, time } = formatDateTime(event.date, event.time); // Format date and time
           return (
-            <p key={event.id}>
-              <strong>{event.name}</strong> at {event.location} on {date} at{" "}
-              {time}
-            </p>
+            <div key={event.id}>
+              <p>
+                <strong>{event.name}</strong> at {event.location} on {date} at{" "}
+                {time}
+              </p>
+              <button onClick={() => deleteEvent(event.id)}>Delete</button>
+            </div>
           );
         })
       ) : (
