@@ -7,7 +7,6 @@ const UserDetails = () => {
   const [user, setUser] = useState(null);
   const [error, setError] = useState(null);
 
-
   useEffect(() => {
     fetch(`http://localhost:8080/users/${id}`)
       .then((res) => {
@@ -23,21 +22,29 @@ const UserDetails = () => {
       .catch((err) => setError(err.message));
   }, [id]);
 
-
   if (!user) {
     return <p>Loading...</p>;
   }
 
-
   return (
     <div>
-      <h2>User Details</h2>
-      <pre>{JSON.stringify(user, null, 2)}</pre>
+      <h1>{user.name}</h1>
+      <p>
+        <strong>User ID:</strong> {user.id}
+      </p>
+      <p>
+        <strong>Queued Events:</strong>
+      </p>
+      <ul>
+        {user.event_ids.length > 0 ? (
+          user.event_ids.map((eventId) => <li key={eventId}>{eventId}</li>)
+        ) : (
+          <li>No events queued</li>
+        )}
+      </ul>
       <button onClick={() => navigate("/users")}>Back to Users</button>
     </div>
   );
 };
 
 export default UserDetails;
-
-

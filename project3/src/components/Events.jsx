@@ -4,16 +4,16 @@ import { Link } from "react-router-dom";
 const Events = () => {
   const [eventName, setEventName] = useState()
   const [newQueue, setnewQueue] = useState()
-  const [events, setEvents] = useState([]); // State for events list
+  const [events, setEvents] = useState([]);
   const [newEvent, setNewEvent] = useState({
     name: "",
     location: "",
     date: "",
     time: "",
-  }); // State for new event input
-  const [error, setError] = useState(null); // State for error handling
+  });
+  const [error, setError] = useState(null);
 
-  //set user to add to  quewue
+
   const inputEvent = (event) => {
     setnewQueue(event.target.value)
     setEventName(event.target.className)
@@ -44,7 +44,7 @@ const Events = () => {
       .catch((err) => setError(err.message));
   }, []);
 
-  // Handle form input changes
+
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     setNewEvent((prevEvent) => ({
@@ -94,8 +94,8 @@ const Events = () => {
         return res.json();
       })
       .then((addedEvent) => {
-        setEvents((prevEvents) => [...prevEvents, addedEvent]); // Add the new event to the list
-        setNewEvent({ name: "", location: "", date: "", time: "" }); // Reset the input form
+        setEvents((prevEvents) => [...prevEvents, addedEvent]);
+        setNewEvent({ name: "", location: "", date: "", time: "" });
       })
       .catch((err) => setError(err.message));
   };
@@ -165,7 +165,7 @@ const Events = () => {
       <h2>List of Events</h2>
       {events.length > 0 ? (
         events.map((event) => {
-          const { date, time } = formatDateTime(event.date, event.time); // Format date and time
+          const { date, time } = formatDateTime(event.date, event.time); 
           return (
             <div key={event.id}>
               <p>
@@ -182,6 +182,8 @@ const Events = () => {
       ) : (
         <p>No events found</p>
       )}
+      <hr />
+      <Link to="/queue">Go to Queue</Link>
     </div>
   );
 };
