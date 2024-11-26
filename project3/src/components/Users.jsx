@@ -20,7 +20,7 @@ const Users = () => {
     })
       .then((res) => res.json())
       .then(() => {
-        setNewUser(""); 
+        setNewUser("");
         fetchUsers();
       });
   };
