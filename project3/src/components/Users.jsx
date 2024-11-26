@@ -10,14 +10,25 @@ const Users = () => {
     setNewUser(event.target.value);
   };
 
-  const addUser = (newUser) => {
+  const addUser = (name) => {
     fetch("http://localhost:8080/users", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ name: newUser }),
-    });
+      body: JSON.stringify({ name }),
+    })
+      .then((res) => res.json())
+      .then(() => {
+        setNewUser(""); 
+        fetchUsers();
+      });
+  };
+
+  const fetchUsers = () => {
+    fetch("http://localhost:8080/users")
+      .then((res) => res.json())
+      .then((data) => setUsers(data));
   };
 
   useEffect(() => {
@@ -52,7 +63,7 @@ const Users = () => {
         />
         <button onClick={() => addUser(newUser)}>Add User</button>
         {users.map((user) => (
-          <div key={user.id}> 
+          <div key={user.id}>
             <p>{user.name}</p>
             <button onClick={() => setUserToBeDeleted(user.name)}>x</button>
           </div>

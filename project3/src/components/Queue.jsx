@@ -32,7 +32,7 @@ const Queue = () => {
 
         {queue.map((user, index) => (
           <div key={index}>
-            <p>You are number {index + 1} in queue</p> {/* Queue number based on position */}
+            <p>You are number {index + 1} in queue</p>
             <p>{user.user_name}</p>
             <p>{user.events_name}</p>
             <button onClick={() => setUserToBeDeleted(user.user_name)}>x</button>
