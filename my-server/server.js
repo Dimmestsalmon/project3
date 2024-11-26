@@ -7,7 +7,7 @@ const cors = require('cors');
 server.use(express.json())
 server.use(
   cors({
-    origin: ['http://localhost:5173', 'http://127.0.0.1:5173'], 
+    origin: ['http://localhost:5173', 'http://127.0.0.1:5173'],
   })
 );
 
@@ -112,7 +112,7 @@ server.delete('/events/:id', async (req, res) => {
 })
 
 
-}));
+
 
 server.get('/users', (req, res) => {
     knex.select('*').from('users')
