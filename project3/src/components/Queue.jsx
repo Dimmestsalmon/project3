@@ -27,15 +27,15 @@ const Queue = () => {
 
   if (queue.length > 0) {
     return (
-      <div>
-        <h1>List of Queue</h1>
+      <div className ="queue-container">
+        <h1 className ="queue-header">List of Queue</h1>
 
         {queue.map((user, index) => (
           <div key={index}>
-            <p>You are number {index + 1} in queue</p>
-            <p>{user.user_name}</p>
-            <p>{user.events_name}</p>
-            <button onClick={() => setUserToBeDeleted(user.user_name)}>x</button>
+            <p>{user.user_name} you are #{index + 1} in queue for {user.events_name} </p>
+
+
+            <button className ="remove-button" onClick={() => setUserToBeDeleted(user.user_name)}>Remove</button>
           </div>
         ))}
 
