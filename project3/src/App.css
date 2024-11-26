@@ -1,42 +1,78 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+
+
+
+.home-page {
+  width: 100vw;
+  height: 100vh;
+  background-image: url('https://images.pexels.com/photos/1002776/pexels-photo-1002776.jpeg?auto=compress&cs=tinysrgb&w=600');
+  margin: 0;
+  box-sizing: border-box;
+  padding: 20em;
+  background-repeat: no-repeat;
+  background-position: bottom;
+  background-size: cover;
+  background-color: #0005;
+  background-blend-mode: darken;
+  color: rgba(255, 255, 255, 0.89);
+
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
-}
-
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.home-page .header {
+  padding: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255, 255, 255, 0.89);
+  font-family: 'Garamond';
+  font-size: 130px;
+  text-shadow: 2px 0 #000000, -2px 0 #000000, 0 2px #000000, 0 -2px #000000,
+  1px 1px #000000, -1px -1px #000000, 1px -1px #000000, -1px 1px #000000;
+  vertical-align: top;
+  line-height: 5px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+.home-page .join-queue {
+  text-decoration-line: underline;
+  display: flex;
+  justify-content: center;
+  padding: 0;
+  font-size: 40px;
+  font-family:Georgia, 'Times New Roman', Times, serif;
+  color: rgba(255, 255, 255, 0.89);
 }
 
-.card {
-  padding: 2em;
+.home-page .available-events {
+  color: rgba(255, 255, 255, 0.89) !important;
+  text-decoration-line: underline;
+  display: flex;
+  justify-content: center;
+  padding: 0;
+  font-size: 40px;
+
+  font-family:Georgia, 'Times New Roman', Times, serif;
+}
+.home-page .users-list {
+  text-decoration-line: underline;
+  display: flex;
+  justify-content: center;
+  padding: 0;
+  font-size: 40px;
+  color: white !important;
+ font-family:Georgia, 'Times New Roman', Times, serif;
 }
 
-.read-the-docs {
-  color: #888;
+
+.users-header {
+  padding: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(127, 137, 189, 0.89);
+  font-family: 'Garamond';
+  font-size: 130px;
+  text-shadow: 2px 0 #000000, -2px 0 #000000, 0 2px #000000, 0 -2px #000000,
+  1px 1px #000000, -1px -1px #000000, 1px -1px #000000, -1px 1px #000000;
+  vertical-align: top;
+  line-height: 5px;
+
 }
