@@ -5,9 +5,11 @@ const knex = require('knex')(require('./knexfile.js')['development']);
 
 const cors = require('cors');
 server.use(express.json())
-server.use(cors({
-    origin: 'http://localhost:5173'
-}));
+server.use(
+  cors({
+    origin: ['http://localhost:5173', 'http://127.0.0.1:5173'], 
+  })
+);
 
 // Middleware to parse JSON (useful for POST/PUT requests)
 server.use(express.json());

@@ -54,8 +54,8 @@ const Events = () => {
         return res.json();
       })
       .then((addedEvent) => {
-        setEvents((prevEvents) => [...prevEvents, addedEvent]);
-        setNewEvent({ name: '', location: '', date: '', time: '' });
+        setEvents((prevEvents) => [...prevEvents, addedEvent]); // Add the new event to the list
+        setNewEvent({ name: '', location: '', date: '', time: '' }); // Reset the input form
       })
       .catch((err) => setError(err.message));
   };
@@ -67,12 +67,48 @@ const Events = () => {
   return (
     <div>
       <h1>Events</h1>
-      <h2>New Events</h2>
-      <button onClick={addEvent}>Add Event</button>
+
+      <h2>Add New Event</h2>
+      <form
+        onSubmit={(e) => {
+          e.preventDefault(); // Prevent page refresh on form submission
+          addEvent();
+        }}
+      >
+        <input
+          type="text"
+          name="name"
+          placeholder="Event Name"
+          value={newEvent.name}
+          onChange={handleInputChange}
+        />
+        <input
+          type="text"
+          name="location"
+          placeholder="Event Location"
+          value={newEvent.location}
+          onChange={handleInputChange}
+        />
+        <input
+          type="date"
+          name="date"
+          placeholder="Event Date"
+          value={newEvent.date}
+          onChange={handleInputChange}
+        />
+        <input
+          type="time"
+          name="time"
+          placeholder="Event Time"
+          value={newEvent.time}
+          onChange={handleInputChange}
+        />
+        <button type="submit">Add Event</button>
+      </form>
 
       <h2>List of Events</h2>
       {events.length > 0 ? (
-        events.map((event) =>(
+        events.map((event) => (
           <p key={event.id}>
             <strong>{event.name}</strong> at {event.location} on {event.date} at {event.time}
           </p>
@@ -83,7 +119,5 @@ const Events = () => {
     </div>
   );
 };
-
-
 
 export default Events;
