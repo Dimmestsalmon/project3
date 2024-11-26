@@ -182,6 +182,8 @@ const Events = () => {
       ) : (
         <p>No events found</p>
       )}
+      <hr />
+      <Link to="/queue">Go to Queue</Link>
     </div>
   );
 };
