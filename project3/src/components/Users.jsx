@@ -11,7 +11,6 @@ const Users = () => {
   }
 
   const addUser = (newUser) =>{
-      console.log(newUser)
       fetch('http://localhost:8080/users', {
         method: "POST",
         headers: {
