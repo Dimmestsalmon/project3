@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 
 const Events = () => {
   const [events, setEvents] = useState([]); // State for events list
@@ -152,6 +153,7 @@ const Events = () => {
                 {time}
               </p>
               <button onClick={() => deleteEvent(event.id)}>Delete</button>
+              <Link to={`/events/${event.id}`}>View Details</Link> {/* Added Link */}
             </div>
           );
         })
@@ -163,3 +165,4 @@ const Events = () => {
 };
 
 export default Events;
+
