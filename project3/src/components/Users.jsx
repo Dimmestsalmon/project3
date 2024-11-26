@@ -54,7 +54,7 @@ const Users = () => {
   if (users) {
     return (
       <>
-        <h1>List of Users</h1>
+        <h1 className="users-header">List of Users</h1>
         <input
           type="text"
           placeholder="Name here"
