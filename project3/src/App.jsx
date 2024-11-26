@@ -5,7 +5,8 @@ import Home from './pages/Home';
 import Queue from './components/Queue';
 import Events from './components/Events';
 import Users from './components/Users';
-import EventDetails from './components/EventDetails'; 
+import EventsDetails from './components/EventsDetails';
+import UserDetails from "./components/UserDetails";
 
 function App() {
   return (
@@ -15,7 +16,8 @@ function App() {
         <Route path="/queue" element={<Queue />} />
         <Route path="/events" element={<Events />} />
         <Route path="/users" element={<Users />} />
-        <Route path="/events/:id" element={<EventDetails />} />
+        <Route path="/events/:id" element={<EventsDetails />} />
+        <Route path="/users/:id" element={<UserDetails />} />
       </Routes>
     </Router>
   );
