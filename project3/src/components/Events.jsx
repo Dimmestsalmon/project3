@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
 const Events = () => {
-  const [eventName, setEventName] = useState()
-  const [newQueue, setnewQueue] = useState()
+  const [eventName, setEventName] = useState();
+  const [newQueue, setnewQueue] = useState();
   const [events, setEvents] = useState([]);
   const [newEvent, setNewEvent] = useState({
     name: "",
@@ -13,23 +13,21 @@ const Events = () => {
   });
   const [error, setError] = useState(null);
 
-
   const inputEvent = (event) => {
-    setnewQueue(event.target.value)
-    setEventName(event.target.className)
-  }
+    setnewQueue(event.target.value);
+    setEventName(event.target.className);
+  };
 
   //add event and user to queue
-  const addToQueue = (newQueue, eventName) =>{
-
-    fetch('http://localhost:8080/queue', {
+  const addToQueue = (newQueue, eventName) => {
+    fetch("http://localhost:8080/queue", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ user_name: newQueue,  event_name: eventName})
-    })
-}
+      body: JSON.stringify({ user_name: newQueue, event_name: eventName }),
+    });
+  };
 
   // Fetch events from the server
   useEffect(() => {
@@ -43,7 +41,6 @@ const Events = () => {
       .then((data) => setEvents(data))
       .catch((err) => setError(err.message));
   }, []);
-
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -121,11 +118,11 @@ const Events = () => {
   }
 
   return (
-    <div>
-      <h1>Events</h1>
+    <div className="events-container">
+      <h1 className="events-header">Events</h1>
 
       <h2>Add New Event</h2>
-      <form
+      <form className ="events-form"
         onSubmit={(e) => {
           e.preventDefault(); // Prevent page refresh on form submission
           addEvent();
@@ -165,17 +162,26 @@ const Events = () => {
       <h2>List of Events</h2>
       {events.length > 0 ? (
         events.map((event) => {
-          const { date, time } = formatDateTime(event.date, event.time); 
+          const { date, time } = formatDateTime(event.date, event.time);
           return (
             <div key={event.id}>
               <p>
                 <strong>{event.name}</strong> at {event.location} on {date} at{" "}
                 {time}
               </p>
-              <input className = {event.name} type = 'text' placeholder = 'Name here' onChange = {inputEvent}/>
-              <button onClick={() => addToQueue(newQueue, eventName)}>Add User</button>
-              <button onClick={() => deleteEvent(event.id)}>Delete</button>
-              <Link to={`/events/${event.id}`}>View Details</Link> {/* Added Link */}
+              <p>
+                <Link to={`/events/${event.id}`}>View Event Details</Link>
+                <button onClick={() => deleteEvent(event.id)}>Delete</button>
+              </p>
+              <input
+                className={event.name}
+                type="text"
+                placeholder="Name here"
+                onChange={inputEvent}
+              />
+              <button onClick={() => addToQueue(newQueue, eventName)}>
+                Add User
+              </button>
             </div>
           );
         })
@@ -189,4 +195,3 @@ const Events = () => {
 };
 
 export default Events;
-

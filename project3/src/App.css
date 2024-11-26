@@ -76,3 +76,41 @@
   line-height: 5px;
 
 }
+
+.events-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  background-color: #f9f9f9;
+  height: 100vh;
+}
+.events-form {
+  margin-bottom: 20px;
+  display: flex;
+  gap: 8px;
+}
+
+.events-form input {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+.events-header {
+  padding: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(127, 137, 189, 0.89);
+  font-family: 'Garamond', serif;
+  font-size: 80px;
+  text-shadow: 2px 0 #000000, -2px 0 #000000, 0 2px #000000, 0 -2px #000000,
+    1px 1px #000000, -1px -1px #000000, 1px -1px #000000, -1px 1px #000000;
+  vertical-align: middle;
+  line-height: 1.2;
+  text-align: center;
+}
