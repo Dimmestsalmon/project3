@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 
 const Events = () => {
   const [eventName, setEventName] = useState()
@@ -174,6 +175,7 @@ const Events = () => {
               <input className = {event.name} type = 'text' placeholder = 'Name here' onChange = {inputEvent}/>
               <button onClick={() => addToQueue(newQueue, eventName)}>Add User</button>
               <button onClick={() => deleteEvent(event.id)}>Delete</button>
+              <Link to={`/events/${event.id}`}>View Details</Link> {/* Added Link */}
             </div>
           );
         })
@@ -185,3 +187,4 @@ const Events = () => {
 };
 
 export default Events;
+

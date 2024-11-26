@@ -113,18 +113,27 @@ server.delete('/events/:id', async (req, res) => {
 
 
 
-
 server.get('/users', (req, res) => {
     knex.select('*').from('users')
     .then(data => res.status(200).json(data))
     .catch(err => res.status(400).send('Error fetching events'))
 })
 
-server.get('/users/:id', (req, res) => {
-    knex.select('*').from('users').where('id', req.params.id)
-    .then(data => res.status(200).json(data))
-    .catch(err => res.status(400).send('Error fetching events'))
-})
+server.get('/users/:id', async (req, res) => {
+  const { id } = req.params;
+
+
+  const user = await knex('users').where({ id }).first();
+  if (!user) {
+    return res.status(404).json({ error: 'User not found.' });
+  }
+
+  const eventIds = await knex('queue')
+    .pluck('event_id')
+    .where({ user_id: id });
+
+  res.json({ ...user, event_ids: eventIds });
+});
 
 server.post('/users', (req, res) => {
     knex('users').insert(req.body)
