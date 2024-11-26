@@ -112,8 +112,6 @@ server.delete('/events/:id', async (req, res) => {
 })
 
 
-
-
 server.get('/users', (req, res) => {
     knex.select('*').from('users')
     .then(data => res.status(200).json(data))
