@@ -1,21 +1,21 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 
 const Events = () => {
   const [events, setEvents] = useState([]); // State for events list
   const [newEvent, setNewEvent] = useState({
-    name: '',
-    location: '',
-    date: '',
-    time: '',
+    name: "",
+    location: "",
+    date: "",
+    time: "",
   }); // State for new event input
   const [error, setError] = useState(null); // State for error handling
 
   // Fetch events from the server
   useEffect(() => {
-    fetch('http://localhost:8080/events')
+    fetch("http://localhost:8080/events")
       .then((res) => {
         if (!res.ok) {
-          throw new Error('Failed to fetch events');
+          throw new Error("Failed to fetch events");
         }
         return res.json();
       })
@@ -32,30 +32,51 @@ const Events = () => {
     }));
   };
 
+  const formatDateTime = (isoString, timeString) => {
+
+    const date = new Date(isoString).toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    });
+
+    
+    const time = new Date(`1970-01-01T${timeString}`).toLocaleTimeString(
+      "en-US",
+      {
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: true,
+      }
+    );
+
+    return { date, time };
+  };
+
   // Add a new event
   const addEvent = () => {
     const { name, location, date, time } = newEvent;
     if (!name || !location || !date || !time) {
-      alert('All fields are required');
+      alert("All fields are required");
       return;
     }
 
-    fetch('http://localhost:8080/events', {
-      method: 'POST',
+    fetch("http://localhost:8080/events", {
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
       body: JSON.stringify(newEvent),
     })
       .then((res) => {
         if (!res.ok) {
-          throw new Error('Failed to add event');
+          throw new Error("Failed to add event");
         }
         return res.json();
       })
       .then((addedEvent) => {
         setEvents((prevEvents) => [...prevEvents, addedEvent]); // Add the new event to the list
-        setNewEvent({ name: '', location: '', date: '', time: '' }); // Reset the input form
+        setNewEvent({ name: "", location: "", date: "", time: "" }); // Reset the input form
       })
       .catch((err) => setError(err.message));
   };
@@ -108,11 +129,15 @@ const Events = () => {
 
       <h2>List of Events</h2>
       {events.length > 0 ? (
-        events.map((event) => (
-          <p key={event.id}>
-            <strong>{event.name}</strong> at {event.location} on {event.date} at {event.time}
-          </p>
-        ))
+        events.map((event) => {
+          const { date, time } = formatDateTime(event.date, event.time); // Format date and time
+          return (
+            <p key={event.id}>
+              <strong>{event.name}</strong> at {event.location} on {date} at{" "}
+              {time}
+            </p>
+          );
+        })
       ) : (
         <p>No events found</p>
       )}
