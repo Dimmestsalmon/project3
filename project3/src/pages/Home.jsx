@@ -8,6 +8,7 @@ const Home = () => {
       <h1>Queue Buddy</h1>
       <Link to="/queue">Join A Queue</Link>
       <Link to="/events">Available Events</Link>
+      <Link to="/users">Users</Link>
     </div>
   );
 };
