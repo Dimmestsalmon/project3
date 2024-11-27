@@ -190,6 +190,7 @@ const Events = () => {
       )}
       <hr />
       <Link to="/queue">Go to Queue</Link>
+      <Link to="/">Home Page</Link>
     </div>
   );
 };

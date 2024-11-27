@@ -5,29 +5,52 @@ const UserDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [user, setUser] = useState(null);
+  const [events, setEvents] = useState([]);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetch(`http://localhost:8080/users/${id}`)
-      .then((res) => {
+    // Fetch user details
+    const fetchUser = async () => {
+      try {
+        const res = await fetch(`http://localhost:8080/users/${id}`);
         if (!res.ok) {
-          if (res.status === 404) {
-            throw new Error("User not found");
-          }
-          throw new Error("Failed to fetch user details");
+          throw new Error(res.status === 404 ? "User not found" : "Failed to fetch user details");
         }
-        return res.json();
-      })
-      .then((data) => setUser(data))
-      .catch((err) => setError(err.message));
+        const data = await res.json();
+        setUser(data);
+
+        // Fetch event names for queued events
+        const eventDetails = await Promise.all(
+          data.event_ids.map(async (eventId) => {
+            const eventRes = await fetch(`http://localhost:8080/events/${eventId}`);
+            const eventData = await eventRes.json();
+            return eventData;
+          })
+        );
+        setEvents(eventDetails);
+      } catch (err) {
+        setError(err.message);
+      }
+    };
+
+    fetchUser();
   }, [id]);
+
+  if (error) {
+    return (
+      <div>
+        <p>Error: {error}</p>
+        <button onClick={() => navigate("/users")}>Back to Users</button>
+      </div>
+    );
+  }
 
   if (!user) {
     return <p>Loading...</p>;
   }
 
   return (
-    <div className ="user-details">
+    <div className="user-details">
       <h1>{user.name}</h1>
       <p>
         <strong>User ID:</strong> {user.id}
@@ -36,8 +59,8 @@ const UserDetails = () => {
         <strong>Queued Events:</strong>
       </p>
       <ul>
-        {user.event_ids.length > 0 ? (
-          user.event_ids.map((eventId) => <li key={eventId}>{eventId}</li>)
+        {events.length > 0 ? (
+          events.map((event) => <li key={event.id}>{event.name}</li>)
         ) : (
           <li>No events queued</li>
         )}
@@ -48,3 +71,4 @@ const UserDetails = () => {
 };
 
 export default UserDetails;
+

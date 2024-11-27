@@ -40,7 +40,8 @@ const Queue = () => {
         ))}
 
         <hr />
-        <Link to="/">Go to Home Page</Link>
+        <Link to="/">Home Page</Link>
+        <Link to="/events">Event Listing</Link>
       </div>
     );
   }
